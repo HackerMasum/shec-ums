@@ -1,0 +1,6 @@
+@ShEC.UMS.Api_HostAddress = http://localhost:5001
+
+GET {{ShEC.UMS.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
