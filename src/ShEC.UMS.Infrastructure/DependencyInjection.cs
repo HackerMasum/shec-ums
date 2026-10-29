@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShEC.UMS.Infrastructure.Persistence;
+using ShEC.UMS.Application.Students;
+using ShEC.UMS.Infrastructure.Persistence.Repositories;
 
 namespace ShEC.UMS.Infrastructure;
 
@@ -22,6 +24,8 @@ public static class DependencyInjection
 
         services.AddDbContext<ShECUmsDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddScoped<IStudentRepository, StudentRepository>();
 
         return services;
     }

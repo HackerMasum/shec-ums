@@ -480,3 +480,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Local development configuration
+/src/ShEC.UMS.Api/appsettings.Development.json
