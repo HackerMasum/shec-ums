@@ -1,0 +1,41 @@
+﻿name: .NET CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dotnet-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build API and run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore API
+        run: dotnet restore src/ShEC.UMS.Api/ShEC.UMS.Api.csproj
+
+      - name: Restore tests
+        run: dotnet restore tests/ShEC.UMS.Domain.Tests/ShEC.UMS.Domain.Tests.csproj
+
+      - name: Build API
+        run: dotnet build src/ShEC.UMS.Api/ShEC.UMS.Api.csproj --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test tests/ShEC.UMS.Domain.Tests/ShEC.UMS.Domain.Tests.csproj --configuration Release --no-restore --logger "console;verbosity=normal"
